@@ -39,7 +39,19 @@ def generate_summary(text):
         model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are an assistant helping insurance agents summarize quote PDFs."},
-            {"role": "user", "content": f"Summarize these quotes in an email to a client:\n\n{text}"}
+            {"role": "user", "content": f"""
+You're a commercial insurance assistant helping brokers summarize and communicate quotes to their clients.
+
+Read the following quote(s) and prepare a professional, plain-English email summary for the insured. Your summary should:
+- Highlight total premium, limits, deductibles, and carrier
+- Clearly explain any major coverage differences and/or exclusions
+- Flag any missing coverages or unusual endorsements
+- Help the broker appear informed and helpful
+
+Quotes:
+{text}
+"""}
+
         ],
         temperature=0.4,
     )
