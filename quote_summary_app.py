@@ -11,16 +11,6 @@ st.set_page_config(page_title="Quote Summary Generator", layout="centered")
 st.title("📄 Quote Summary Generator")
 st.subheader("Step 1: Upload Quote PDFs")
 st.markdown("You can upload 1 quote PDF per request per week on the Free Plan. This is currently the only plan available while we are in our testing phase.")
-# 🧾 Info box for Free Plan limits
-with st.expander("📦 Free Plan Limits"):
-    st.markdown("""
-**Current Usage Limits:**
-
-- ✅ 1 PDF per request
-- ✅ 1 summary per week (based on IP address, coming soon)
-- ❌ No custom branding or proposal downloads yet
-- 🚀 [Upgrade options coming soon]
-""")
 
 st.divider()
 
@@ -120,6 +110,16 @@ Best regards,
         st.subheader("📧 Email Summary")
         st.text_area("Copy this summary into your email to the client:", summary, height=300)
 
+# 🧾 Info box for Free Plan limits
+with st.expander("📦 Free Plan Limits"):
+    st.markdown("""
+**Current Usage Limits:**
+
+- ✅ 1 PDF per request
+- ✅ 1 summary per week (based on IP address, coming soon)
+- ❌ No custom branding or proposal downloads yet
+- 🚀 [Upgrade options coming soon]
+""")
 
 # 💬 Optional Feedback Form
 st.divider()
