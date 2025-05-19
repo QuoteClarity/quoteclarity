@@ -71,15 +71,15 @@ Quotes:
 
 # ▶️ Generate summary button logic
 if uploaded_files:
-# 🆕 Optional: Preview before running GPT
-if "show_preview" not in st.session_state:
-    st.session_state["show_preview"] = False
+    # 🆕 Optional: Preview before running GPT
+    if "show_preview" not in st.session_state:
+        st.session_state["show_preview"] = False
 
-if st.button("📄 Preview Example Summary"):
-    st.session_state["show_preview"] = True
+    if st.button("📄 Preview Example Summary"):
+        st.session_state["show_preview"] = True
 
-if st.session_state["show_preview"]:
-    st.markdown("""
+    if st.session_state["show_preview"]:
+        st.markdown("""
 ### 📧 Example Email Summary
 
 Hi [Client Name],
