@@ -25,7 +25,7 @@ MAX_FILES = 1
 if uploaded_files and len(uploaded_files) > MAX_FILES:
     st.error(f"Your plan allows a maximum of {MAX_FILES} PDF(s) per request.")
     st.stop()
-
+    
 # 📃 Extract all text from uploaded PDFs
 def extract_text_from_pdfs(files):
     all_text = ""
@@ -61,47 +61,75 @@ Quotes:
 
 # ▶️ Generate summary button logic
 if uploaded_files:
-    # 🆕 Optional: Preview before running GPT
-    if "show_preview" not in st.session_state:
-        st.session_state["show_preview"] = False
+        # 🧑 Optional: Client name and goal
+    client_name = st.text_input("Client Name (optional)")
 
+    goal = st.radio(
+        "What's most important to your client?",
+        options=["Lowest Price", "Broadest Coverage", "Balanced"],
+        index=2,
+        help="This helps shape the summary tone"
+    )
+
+        # 🆕 Preview Example Summary based on goal
     if st.button("📄 Preview Example Summary"):
-        st.session_state["show_preview"] = True
+        if goal == "Lowest Price":
+            preview = f"""
+Hi {client_name or '[Client Name]'},
 
-    if st.session_state["show_preview"]:
-        st.markdown("""
-### 📧 Example Email Summary
-
-Hi [Client Name],
-
-Attached are the quotes we’ve received so far for your upcoming renewal. Here's a quick comparison of the key coverage details:
+Based on your preferences, we've included the most competitively priced quote below:
 
 ---
 
-#### 🏢 **Carrier: AmTrust**
-- **General Liability Limits:** $1M / $2M  
-- **Deductible:** $1,000  
-- **Total Premium:** $2,250  
-- **Notable Exclusions:** EPLI, Cyber Liability  
-- **Includes:** Blanket Additional Insured, Primary/Non-Contributory Wording
+**Carrier: AmTrust**
+- Premium: $1,950
+- Deductible: $2,500  
+- Coverage: Basic General Liability  
+- Exclusions: Cyber, EPLI
+
+This option offers lower upfront cost, but excludes certain risk protections.
+
+Let us know if you'd like to review broader options.
+"""
+        elif goal == "Broadest Coverage":
+            preview = f"""
+Hi {client_name or '[Client Name]'},
+
+We've highlighted the quote with the most comprehensive coverage below:
 
 ---
 
-#### 🏢 **Carrier: Guard**
-- **General Liability Limits:** $1M / $2M  
-- **Deductible:** $2,500  
-- **Total Premium:** $2,100  
-- **Includes:** Cyber Liability  
-- **Excludes:** EPLI
+**Carrier: Guard**
+- Premium: $2,450  
+- Deductible: $1,000  
+- Coverage: Includes Cyber, EPLI, and Blanket AI  
+- Exclusions: Minimal
+
+This option provides broader protection for a slightly higher premium.
+
+Let us know if you'd like to compare cost-saving options as well.
+"""
+        else:  # Balanced
+            preview = f"""
+Hi {client_name or '[Client Name]'},
+
+Here’s a well-balanced quote offering solid coverage at a reasonable price:
 
 ---
 
-Let us know which option you'd like to move forward with or if you’d like us to clarify anything further. We’re happy to walk through the differences with you.
+**Carrier: Liberty Mutual**
+- Premium: $2,200  
+- Deductible: $1,500  
+- Coverage: General Liability, Cyber  
+- Exclusions: EPLI not included
 
-Best regards,  
-[Your Name]  
-[Your Agency Name]
-""")
+This is a great middle-ground option for price and protection.
+
+Let us know if you'd like to explore more tailored options.
+"""
+
+        st.markdown(f"### 📧 Example Email Summary\n\n{preview}")
+
 
     # 🚀 Actual GPT summary trigger
     if st.button("Generate Summary"):
